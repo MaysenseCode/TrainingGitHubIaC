@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "storageAccountName": {
-            "value": "githubstorage01"
+            "value": "githubstoragetmp01"
         },
         "location": {
             "value": "West Europe" // TODO: Fill in parameter value
