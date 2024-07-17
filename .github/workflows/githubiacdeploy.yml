@@ -44,7 +44,7 @@ jobs:
           template: ./arm-templates/storageaccount.json
           parameters: 
             ./arm-templates/storageaccount.parameters.json
-            storageAccountName=githubstoragetmp01
+            storageAccountName=githubstoragetmp02
             location=germanywestcentral
           deploymentMode: incremental
   
