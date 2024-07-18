@@ -64,5 +64,5 @@ jobs:
           template: ./arm-templates/virtualmachine.json
           # Hybrid method: uses both the parameter file and hardcorde (override) parameters
           parameters: 
-            adminPassword=T3stw@chtW
+            adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
           deploymentMode: incremental
