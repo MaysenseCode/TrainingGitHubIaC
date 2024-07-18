@@ -54,3 +54,15 @@ jobs:
           deploymentMode: incremental
       
       - run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri}}
+
+      - name: Deploy Virtual Machine
+        uses: Azure/arm-deploy@v2
+        with:
+          scope: resourcegroup
+          resourceGroupName: rg-githubactions
+          subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
+          template: ./arm-templates/virtualmachine.json
+          # Hybrid method: uses both the parameter file and hardcorde (override) parameters
+          parameters: 
+            adminPassword=T3stw@chtW
+          deploymentMode: incremental
