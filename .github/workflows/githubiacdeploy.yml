@@ -9,6 +9,11 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  resource_group_name: rg-githubactions
+  location: germanywestcentral
+  subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -26,31 +31,31 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Resource Group rg-githubactions
+      - name: Deploy Resource Group ${{ env.resource_group_name }}
         uses: Azure/arm-deploy@v2
         with:
           scope: subscription
-          subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
+          subscriptionId: ${{ env.subscriptionId }}
           region: West Europe
           template: ./arm-templates/resourcegroup.json
           parameters:
-            location=westeurope
-            resourceGroupName=rg-githubactions
-          deploymentName: rg-githubactions
+            location=${{ env.location }}
+            resourceGroupName=${{ env.resource_group_name }}
+          deploymentName: ${{ env.resource_group_name }}
       
       - name: Deploy Storage Account
         uses: Azure/arm-deploy@v2
         id: storageAccountDeploy
         with:
           scope: resourcegroup
-          resourceGroupName: rg-githubactions
-          subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
+          resourceGroupName: ${{ env.resource_group_name }}
+          subscriptionId: ${{ env.subscriptionId }}
           template: ./arm-templates/storageaccount.json
           # Hybrid method: uses both the parameter file and hardcorde (override) parameters
           parameters: 
             ./arm-templates/storageaccount.parameters.json
             storageAccountName=githubstoragetmp02
-            location=germanywestcentral
+            location=${{ env.location }}
           deploymentMode: incremental
       
       - run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri}}
@@ -59,10 +64,11 @@ jobs:
         uses: Azure/arm-deploy@v2
         with:
           scope: resourcegroup
-          resourceGroupName: rg-githubactions
-          subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
+          resourceGroupName: ${{ env.resource_group_name }}
+          subscriptionId: ${{ env.subscriptionId }}
           template: ./arm-templates/virtualmachine.json
           # Hybrid method: uses both the parameter file and hardcorde (override) parameters
           parameters: 
             adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
+            location=${{ env.location }}
           deploymentMode: incremental
