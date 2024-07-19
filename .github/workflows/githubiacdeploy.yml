@@ -11,7 +11,8 @@ on:
 
 env:
   resource_group_name: rg-githubactions
-  location: germanywestcentral
+  # If there are spaces in the name, put quotes around the entire variable being referenced
+  location: Germany West Central
   subscriptionId: b7b2edf5-3b33-4d1b-a916-9f552c4148c5
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -39,7 +40,8 @@ jobs:
           region: West Europe
           template: ./arm-templates/resourcegroup.json
           parameters:
-            location=${{ env.location }}
+            # If there are spaces in the name, put quotes around the entire variable being referenced
+            location="${{ env.location }}"
             resourceGroupName=${{ env.resource_group_name }}
           deploymentName: ${{ env.resource_group_name }}
       
@@ -55,7 +57,7 @@ jobs:
           parameters: 
             ./arm-templates/storageaccount.parameters.json
             storageAccountName=githubstoragetmp02
-            location=${{ env.location }}
+            location="${{ env.location }}"
           deploymentMode: incremental
       
       - run: echo ${{ steps.storageAccountDeploy.outputs.BlobUri}}
@@ -70,5 +72,5 @@ jobs:
           # Hybrid method: uses both the parameter file and hardcorde (override) parameters
           parameters: 
             adminPassword=${{ secrets.UBUNTU_ADMIN_PASSWORD }}
-            location=${{ env.location }}
+            location="${{ env.location }}"
           deploymentMode: incremental
