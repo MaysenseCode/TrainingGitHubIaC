@@ -4,9 +4,9 @@ name: armTemplateDeployment
 
 # Controls when the workflow will run
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   workflow_dispatch:
 
 env:
