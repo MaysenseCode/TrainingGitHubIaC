@@ -1,9 +1,9 @@
-param resourGroupName string
+param resourceGroupName string
 param location string
 
 targetScope = 'subscription'
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: resourGroupName
+  name: resourceGroupName
   location: location
 }
