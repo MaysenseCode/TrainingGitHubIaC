@@ -35,7 +35,7 @@ jobs:
           --template-file ./bicep-templates/resourcegroup.bicep \
           --parameters \
           resourceGroupName=${{ env.resource_group_name }} \
-          location=${{ env.location }}
+          location="${{ env.location }}"
 
     - name: Deploy Virtual network
       uses: Azure/cli@v2.0.0
@@ -46,7 +46,7 @@ jobs:
           --template-file ./bicep-templates/virtualnetwork.bicep \
           --parameters \
           vNetPrefix=bicepazcli \
-          location=${{ env.location }}
+          location="${{ env.location }}"
 
   bicepArmDeployAction:
     name: Bicep ARM-deploy Deploy jobs
@@ -68,13 +68,13 @@ jobs:
       uses: Azure/arm-deploy@v2
       with:
         scope: subscription
-        region: ${{ env.location }}
+        region: "${{ env.location }}"
         subscriptionId: ${{ env.subscriptionId }}
         deploymentName: ${{ env.resource_group_name }}
         template: ./bicep-templates/resourcegroup.bicep
         parameters:
           resourceGroupName=${{ env.resource_group_name }}
-          location=${{ env.location }}
+          location="${{ env.location }}"
 
     - name: Deploy vNet
       uses: Azure/arm-deploy@v2
@@ -85,4 +85,4 @@ jobs:
         template: ./bicep-templates/virtualnetwork.bicep
         parameters:
           vNetPrefix=bicepazcli \
-          location=${{ env.location }}
+          location="${{ env.location }}"
